@@ -56,6 +56,16 @@ rpt_rhythmicity <- function(tt,yy,id,period=24,method="LR"){
   # lmer with random intercept
   rdm_int_h1 <- lmer(y~EE+FF+(1|id),data=temp_data,REML=F,control = lmerControl(check.conv.singular = .makeCC(action = "ignore", tol = formals(isSingular)$tol),check.conv.hess     = .makeCC(action = "ignore", tol = 1e-6),check.conv.grad     = .makeCC("ignore", tol = 2e-3, relTol = NULL)))
   rdm_int_h0 <- lmer(y~(1|id),data=temp_data,REML=F,control = lmerControl(check.conv.singular = .makeCC(action = "ignore", tol = formals(isSingular)$tol),check.conv.hess     = .makeCC(action = "ignore", tol = 1e-6),check.conv.grad     = .makeCC("ignore", tol = 2e-3, relTol = NULL)))
+  
+  C0 <- coef(summary(rdm_int_h1))[ 1, "Estimate"]
+  EE <- coef(summary(rdm_int_h1))[ 2, "Estimate"]
+  FF <- coef(summary(rdm_int_h1))[ 3, "Estimate"]
+  A <- sqrt(EE^2+FF^2)
+  phi <- atan(FF/EE)/(2*pi/period)
+  tempVcov <- as.data.frame(summary(rdm_int_h1)$varcor)
+  sigma_alpha <- tempVcov[1,"sdcor"]
+  sigma_0 <- tempVcov[2,"sdcor"]
+  
 
   if(method=="LR"){
     LR_rdm_int <- lrtest(rdm_int_h0,rdm_int_h1)
@@ -69,5 +79,5 @@ rpt_rhythmicity <- function(tt,yy,id,period=24,method="LR"){
   else{
     cat("Please check your input! Method only supports 'LR' or 'F'.")}
 
-  return(list(statistic=stat,pvalue=pvalue))
+  return(list(statistic=stat,pvalue=pvalue,A=A,phi=phi,basal=C0,sigma_alpha=sigma_alpha,sigma_0=sigma_0))
 }

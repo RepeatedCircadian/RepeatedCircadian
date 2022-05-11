@@ -1,3 +1,7 @@
+library(lme4)
+library(MASS)
+library(lmtest)
+library(pbkrtest)
 ##' Likelihood-based test for differential circadian pattern detection with repeated measurement.
 ##'
 ##' Test differential rhythmicity of circadian curve fitting using random intercept linear mixed model and likelihood-based tests.
@@ -84,6 +88,26 @@ rpt_diff <- function(tt1,yy1,tt2,yy2,id1,id2,group,period=24,method="LR"){
   rdm_int_h0 <- lmer(Y~EE+FF+group+(1|id),data=testData,REML=F,control = lmerControl(check.conv.singular = .makeCC(action = "ignore", tol = formals(isSingular)$tol),check.conv.hess     = .makeCC(action = "ignore", tol = 1e-6),check.conv.grad     = .makeCC("ignore", tol = 2e-3, relTol = NULL)))
 
   rdm_int_h1 <- lmer(Y~EE+FF+group+EE*group+FF*group+(1|id),data=testData,REML=F,control = lmerControl(check.conv.singular = .makeCC(action = "ignore", tol = formals(isSingular)$tol),check.conv.hess     = .makeCC(action = "ignore", tol = 1e-6),check.conv.grad     = .makeCC("ignore", tol = 2e-3, relTol = NULL)))
+  
+  
+  summh1 <- summary(rdm_int_h1)
+  C01 <- coef(summh1)[ 1, "Estimate"]
+  C02 <- coef(summh1)[ 1, "Estimate"]+coef(summh1)[4, "Estimate"]
+  EE1 <- coef(summh1)[ 2, "Estimate"]
+  FF1 <- coef(summh1)[ 3, "Estimate"]
+  EE2 <- coef(summh1)[ 2, "Estimate"]+coef(summh1)[5, "Estimate"]
+  FF2 <- coef(summh1)[ 3, "Estimate"]+coef(summh1)[6, "Estimate"]
+  
+  A1 <- sqrt(EE1^2+FF1^2)
+  phi1 <- atan2(FF1,EE1)/(2*pi/period)
+  
+  A2 <- sqrt(EE2^2+FF2^2)
+  phi2 <- atan2(FF2,EE2)/(2*pi/period)
+  tempVcov2 <- as.data.frame(summh1$varcor)
+  sigma_alpha <- tempVcov2[1,"sdcor"]
+  sigma_0 <- tempVcov2[2,"sdcor"]
+  
+  
 
   if(method=="LR"){
     LR_rdm_int <- lrtest(rdm_int_h0,rdm_int_h1)
@@ -97,5 +121,5 @@ rpt_diff <- function(tt1,yy1,tt2,yy2,id1,id2,group,period=24,method="LR"){
   else{
     cat("Please check your input! Method only supports 'LR' or 'F'.")
   }
-  return(list(statistic=stat,pvalue=pvalue))
+  return(list(statistic=stat,pvalue=pvalue,A1=A1,A2=A2,phi1=phi1,phi2=phi2,basal1=C01,basal2=C02,sigma_alpha=sigma_alpha,sigma_0=sigma_0))
 }

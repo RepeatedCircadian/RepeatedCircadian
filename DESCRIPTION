@@ -1,9 +1,8 @@
 Package: RepeatedCircadian
+Type: Package
 Title: An R package for circadian and differential circadian analysis with repeated measurement
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+Date: 2022-05-13
 Author: Haocheng Ding, Zhiguang Huo
 Maintainer: Zhiguang Huo <zhuo@ufl.edu>
 biocViews: Statistical Method, Software
@@ -17,6 +16,5 @@ BugReports: https://github.com/RepeatedCircadian/RepeatedCircadian/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 NeedsCompilation: no
-Suggests: 
-    knitr,
-    rmarkdown
+Suggests: knitr, rmarkdown
+LazyData: true

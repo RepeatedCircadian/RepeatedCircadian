@@ -17,6 +17,6 @@ HTRF
 Short-Term Time-Restricted Feeding Alters Rhythmicity of Lipid and Amino Acid Metabolites in Overweight Men (Human time-restricted feeding data)
 }
 \references{
-Lundell LS, Parr EB, Devlin BL, Ingerslev LR et al. Time-restricted feeding alters lipid and amino acid metabolite rhythmicity without perturbing clock gene expression. Nat Commun 2020 Sep 16;11(1):4643. PMID: 32938935
+Lundell LS, Parr EB, Devlin BL, Ingerslev LR et al. Time-restricted feeding alters lipid and amino acid metabolite rhythmicity without perturbing clock gene expression. Nat Commun 2020 Sep 16;11(1):4643. PMID: 32938935.
 }
 \keyword{datasets}

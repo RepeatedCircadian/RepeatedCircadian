@@ -2,3 +2,7 @@
 
 export(rpt_diff)
 export(rpt_rhythmicity)
+import(MASS)
+import(lme4)
+import(lmtest)
+import(pbkrtest)

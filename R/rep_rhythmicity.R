@@ -1,7 +1,3 @@
-library(lme4)
-library(MASS)
-library(lmtest)
-library(pbkrtest)
 ##' Likelihood-based test for circadian pattern detection with repeated measurement.
 ##'
 ##' Test the significance of circadian curve fitting using mixed model with random intercept and likelihood-based test.
@@ -18,6 +14,10 @@ library(pbkrtest)
 ##' \item{stat}{Test statistic.}
 ##' \item{pvalue}{P-value from the test.}
 ##' @author Haocheng Ding, Zhiguang Huo
+##' @import lme4
+##' @import MASS
+##' @import lmtest
+##' @import pbkrtest
 ##' @export
 ##' @examples
 ##' Example 1

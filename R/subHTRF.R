@@ -3,7 +3,7 @@
 #' @title Human time-restricted feeding subdata
 #'
 #' @usage
-#' HTRF
+#' subHTRF
 #'
 #' @format A data frame with 1195 rows and 128 variables. Each row is gene expression value. First three columns are three types of gene identification names then each column represents one sample.
 #'

@@ -11,10 +11,10 @@ A data frame with 1195 rows and 128 variables. Each row is gene expression value
 \url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE129843}
 }
 \usage{
-HTRF
+subHTRF
 }
 \description{
-Subset of Short-Term Time-Restricted Feeding Alters Rhythmicity of Lipid and Amino Acid Metabolites in Overweight Men (Human time-restricted feeding subdata)
+Subset of Short-Term Time-Restricted Feeding Alters Rhythmicity of Lipid and Amino Acid Metabolites in Overweight Men Data (Human time-restricted feeding subdata)
 }
 \references{
 Lundell LS, Parr EB, Devlin BL, Ingerslev LR et al. Time-restricted feeding alters lipid and amino acid metabolite rhythmicity without perturbing clock gene expression. Nat Commun 2020 Sep 16;11(1):4643. PMID: 32938935.

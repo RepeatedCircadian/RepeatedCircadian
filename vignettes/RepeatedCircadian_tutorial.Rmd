@@ -31,15 +31,17 @@ library(pbkrtest)
 library(lmtest)
 library(RepeatedCircadian) # include RepeatedCircadian package
 # load the data
-data("HTRF")
+data("subHTRF")
 data("pheno")
 ```
 
 ## Performing Circadian Rhythmicity Detection for all genes in BA11 data
 
 ```{r}
-ngene <- nrow(HTRF)
-sample <- colnames(HTRF)
+Symbol <- subHTRF[,2]
+subHTRF <- subHTRF[,-c(1:3)]
+ngene <- nrow(subHTRF)
+sample <- colnames(subHTRF)
 sample_split <- strsplit(sample, split=".", fixed=T)
 ID <- unlist(lapply(sample_split, function(x) x[1]))
 condition <- unlist(lapply(sample_split, function(x) x[2]))
@@ -63,39 +65,44 @@ ttR <- sample_df$Time[indR] # Circadian time of restricted group
 ttU <- sample_df$Time[indU] # Circadian time of unrestricted group
 idR <- sample_df$ID[indR] # ID of restricted group
 idU <- sample_df$ID[indU] # ID of unrestricted group
+```
 
-
+```{r}
+# Circadian Analysis for Restricted Group
 tableR <- matrix(nrow=ngene, ncol=7)
 for (i in 1:ngene){
-  yy <- as.numeric(HTRF[i, indR])
+  print(i)
+  yy <- as.numeric(subHTRF[i, indR])
   aTest <- rpt_rhythmicity(ttR, yy, idR, period=24, method="LR")
   tableR[i,] <- unlist(aTest)
 }
-Symbol <- row.names(HTRF)
-tableR <- data.frame(Symbol, tableR)
-colnames(tableR)<-c("Symbol","statistic","pvalue","amplitude","phi","basal","sigma_alpha","sigma_0")
+ensemble <- row.names(subHTRF)
+tableR <- data.frame(ensemble,Symbol, tableR)
+colnames(tableR)<-c("ensemble","gene name","statistic","pvalue","amplitude","phi","basal","sigma_alpha","sigma_0")
 p.value <- tableR$pvalue
 q.value <- p.adjust(p.value, method = "BH", n = length(p.value))
 tableR <- data.frame(tableR, qvalue = q.value)
-colnames(tableR)<-c("Symbol","statistic","pvalue","amplitude","phi","basal","sigma_alpha","sigma_0","qvalue")
-tableR$r <- tableR$amplitude/tableR$sigma_alpha # (sigmaA2: residual variance of the circadian model)
+colnames(tableR)<-c("ensemble","geneName","statistic","pvalue","amplitude","phi","basal","sigma_alpha","sigma_0","qvalue")
+tableR$r <- tableR$amplitude/tableR$sigma_0 # (sigmaA2: residual variance of the circadian model)
 
 
+# Circadian Analysis for Unrestricted Group
 tableU <- matrix(nrow=ngene, ncol=7)
 for (i in 1:ngene){
-  yy <- as.numeric(HTRF[i, indU])
+  print(i)
+  yy <- as.numeric(subHTRF[i, indU])
   aTest <- rpt_rhythmicity(ttU, yy, idU, period=24, method="LR")
   tableU[i,] <- unlist(aTest)
 }
-Symbol <- row.names(HTRF)
-tableU <- data.frame(Symbol, tableU)
 
-colnames(tableU)<-c("Symbol","statistic","pvalue","amplitude","phi","basal","sigma_alpha","sigma_0")
+tableU <- data.frame(ensemble,Symbol,tableU)
+
+colnames(tableU)<-c("ensemble","geneName","statistic","pvalue","amplitude","phi","basal","sigma_alpha","sigma_0")
 p.value <- tableU$pvalue
 q.value <- p.adjust(p.value, method = "BH", n = length(p.value))
 tableU <- data.frame(tableU, qvalue = q.value)
-colnames(tableU)<-c("Symbol","statistic","pvalue","amplitude","phi","basal","sigma_alpha","sigma_0","qvalue")
-tableU$r <- tableU$amplitude/tableU$sigma_alpha # (sigmaA2: residual variance of the circadian model)
+colnames(tableU)<-c("ensemble","geneName","statistic","pvalue","amplitude","phi","basal","sigma_alpha","sigma_0","qvalue")
+tableU$r <- tableU$amplitude/tableU$sigma_0 # (sigmaA2: residual variance of the circadian model)
 ```
 
 ## Save the Circadian Rhythmicity result as csv files.
@@ -125,14 +132,14 @@ tt_base <- seq(-6,24,0.1)
 # Restricted group top 4 significant genes plots
 topN <- 4
 par(mfrow = c(2, 2))
-geneName <- c("ARNTL","CIART","HPB1","KLHL25")
+#geneName <- c("ARNTL","CIART","HPB1","KLHL25")
 for(i in 1:topN){
 	this_LR <- otableR[i,]
-	yy_obs <- HTRF[this_LR$Symbol, indR]
-	rptout <- rpt_rhythmicity(ttR,as.numeric(HTRF[this_LR$Symbol, indR]),idR)
+	yy_obs <- subHTRF[this_LR$ensemble, indR]
+	rptout <- rpt_rhythmicity(ttR,as.numeric(subHTRF[this_LR$ensemble, indR]),idR)
 	yy_fit <- sinCurve(tt_base, rptout$A, rptout$phi, rptout$basal)
 	#yy_fit <- sinCurve(tt_base, this_LR$amplitude, this_LR$phi, this_LR$basal)
-	atitle <- paste0(geneName[i], ", p = ", signif(this_LR$pvalue,3))	
+	atitle <- paste0(otableR[i,2], ", p = ", signif(this_LR$pvalue,3))	
 	plot(ttR, yy_obs ,pch=20, xlab = "Circadian Time", ylab="Expression Value", main = atitle)
 	lines(tt_base, yy_fit, col = 2, lwd =3)
 }

@@ -7,11 +7,11 @@
 rpt_rhythmicity(tt, yy, id, period = 24, method = "LR")
 }
 \arguments{
-\item{tt}{Time vector}
+\item{tt}{Time vector.}
 
-\item{yy}{Expression vector}
+\item{yy}{Expression vector.}
 
-\item{id}{Subject ID number}
+\item{id}{Subject ID numbers.}
 
 \item{period}{Period of the since curve. Default is 24.}
 
@@ -23,6 +23,11 @@ Formula 1: \eqn{yy = amp * sin(2\pi/period * (phase + tt)) + offset}
 Formula 2: \eqn{yy = A * sin(2\pi/period * tt) + B * cos(2*\pi/period * tt) + offset}
 \item{stat}{Test statistic.}
 \item{pvalue}{P-value from the test.}
+\item{A}{Amplitude estimate.}
+\item{phi}{Phase estimate.}
+\item{basal}{Basal level estimate.}
+\item{sigma_0}{Standard deviation for the fixed part of intercept.}
+\item{sigma_alpha}{Standard deviation for the random part of intercept.}
 }
 \description{
 Likelihood-based test for circadian pattern detection with repeated measurement.

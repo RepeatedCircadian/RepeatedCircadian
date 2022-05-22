@@ -15,6 +15,12 @@ rpt_diff(tt1, yy1, tt2, yy2, id1, id2, group, period = 24, method = "LR")
 
 \item{yy2}{Expression vector of condition 2.}
 
+\item{id1}{Subject ID numbers in group 1.}
+
+\item{id2}{Subject ID numbers in group 2.}
+
+\item{group}{Group indicator of all subjects.}
+
 \item{period}{Period of the since curve. Default is 24.}
 
 \item{method}{Test used to detect differential circadian pattern. It can be chosen either "LR" or "F". Default is LR.}
@@ -26,6 +32,14 @@ Formula 1: \eqn{yy = amp * sin(2\pi/period * (phase + tt)) + offset.}
 Formula 2: \eqn{yy = A * sin(2\pi/period * tt) + B * cos(2*\pi/period * tt) + offset.}
 \item{stat}{Test statistic.}
 \item{pvalue}{P-value from the test.}
+\item{A1}{Amplitude for group 1.}
+\item{A2}{Amplitude for group 2.}
+\item{phi1}{Phase for group 1.}
+\item{phi2}{Phase for group 2.}
+\item{basal1}{Basal level for group 1.}
+\item{basal2}{Basal level for group 2.}
+\item{sigma_0}{Standard deviation for the fixed part of intercept.}
+\item{sigma_alpha}{Standard deviation for the random part of intercept.}
 }
 \description{
 Likelihood-based test for differential circadian pattern detection with repeated measurement.

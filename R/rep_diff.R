@@ -6,6 +6,9 @@
 ##' @param yy1 Expression vector of condition 1.
 ##' @param tt2 Time vector of condition 2.
 ##' @param yy2 Expression vector of condition 2.
+##' @param id1 Subject ID numbers in group 1.
+##' @param id2 Subject ID numbers in group 2.
+##' @param group Group indicator of all subjects.
 ##' @param period Period of the since curve. Default is 24.
 ##' @param method Test used to detect differential circadian pattern. It can be chosen either "LR" or "F". Default is LR.
 
@@ -17,6 +20,14 @@
 
 ##' \item{stat}{Test statistic.}
 ##' \item{pvalue}{P-value from the test.}
+##' \item{A1}{Amplitude for group 1.}
+##' \item{A2}{Amplitude for group 2.}
+##' \item{phi1}{Phase for group 1.}
+##' \item{phi2}{Phase for group 2.}
+##' \item{basal1}{Basal level for group 1.}
+##' \item{basal2}{Basal level for group 2.}
+##' \item{sigma_0}{Standard deviation for the fixed part of intercept.}
+##' \item{sigma_alpha}{Standard deviation for the random part of intercept.}
 ##' @author Haocheng Ding, Zhiguang Huo
 ##' @import lme4
 ##' @import MASS

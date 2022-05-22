@@ -2,9 +2,9 @@
 ##'
 ##' Test the significance of circadian curve fitting using mixed model with random intercept and likelihood-based test.
 ##' @title Likelihood-based Test for Detecting Circadian Pattern with Repeated Measurement.
-##' @param tt Time vector
-##' @param yy Expression vector
-##' @param id Subject ID number
+##' @param tt Time vector.
+##' @param yy Expression vector.
+##' @param id Subject ID numbers.
 ##' @param period Period of the since curve. Default is 24.
 ##' @param method Testing methods can be "LR" or "F". Default is "LR".
 ##' @return A list of test statistic and pvalue.
@@ -13,6 +13,11 @@
 ##' Formula 2: \eqn{yy = A * sin(2\pi/period * tt) + B * cos(2*\pi/period * tt) + offset}
 ##' \item{stat}{Test statistic.}
 ##' \item{pvalue}{P-value from the test.}
+##' \item{A}{Amplitude estimate.}
+##' \item{phi}{Phase estimate.}
+##' \item{basal}{Basal level estimate.}
+##' \item{sigma_0}{Standard deviation for the fixed part of intercept.}
+##' \item{sigma_alpha}{Standard deviation for the random part of intercept.}
 ##' @author Haocheng Ding, Zhiguang Huo
 ##' @import lme4
 ##' @import MASS

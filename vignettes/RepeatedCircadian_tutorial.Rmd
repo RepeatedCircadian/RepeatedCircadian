@@ -101,7 +101,7 @@ tableU$r <- tableU$amplitude/tableU$sigma_0 # (sigmaA2: residual variance of the
 ```
 
 ## Save the Circadian Rhythmicity result as csv files.
-```{r, eval = FALSE}
+```{r}
 write.csv(tableR, "Table_pattern_Restricted_notorder.csv", row.names = F)
 write.csv(tableU, "Table_pattern_Unrestricted_notorder.csv", row.names = F)
 oR <- order(tableR$pvalue)
@@ -167,7 +167,6 @@ group <- c(rep("group1", length(idR)), rep("group2", length(idU)))
 
 diff_table <- matrix(nrow=ngene, ncol=10)
 for (i in 1:ngene){
-  print(i)
   yyR <- as.numeric(subHTRF[i, indR])
   yyU <- as.numeric(subHTRF[i, indU])
   diff_out <- rpt_diff(ttR,yyR,ttU,yyU,idR,idU,group)
@@ -184,6 +183,15 @@ diff_table_sum$r1 <- diff_table_sum$amplitude1/diff_table_sum$sigma_0 # (sigmaA2
 diff_table_sum$r2 <- diff_table_sum$amplitude2/diff_table_sum$sigma_0
 ```
 
+## Save differential circadian rhythmicity result as csv files.
+```{r}
+write.csv(diff_table_sum, "Table_diff_notorder.csv", row.names = F)
+
+odiff <- order(diff_table_sum$pvalue)
+odiff_table_sum <- diff_table_sum[odiff,]
+write.csv(odiff_table_sum, "Table_diff.csv", row.names = F)
+```
+
 
 ## Plot top significant genes with differential circadian pattern
 ```{r}
@@ -197,13 +205,27 @@ tt_base <- seq(-6,24,0.1)
 topN <- 4
 par(mfrow = c(2, 2))
 for(i in 1:topN){
-	this_LR <- otableU[i,]
-	yy_obs <- subHTRF[this_LR$ensemble, indU]
-	rptout <- rpt_rhythmicity(ttU,as.numeric(subHTRF[this_LR$ensemble, indU]),idU)
-	yy_fit <- sinCurve(tt_base, rptout$A, rptout$phi, rptout$basal)
-	atitle <- paste0(otableU[i,2], ", p = ", signif(this_LR$pvalue,3))	
-	plot(ttU, yy_obs ,pch=20, xlab = "Circadian Time", ylab="Expression Value", main = atitle)
-	lines(tt_base, yy_fit, col = 2, lwd =3)
+	this_LR <- odiff_table_sum[i,]
+	yyU <- subHTRF[this_LR$ensemble, indU]
+	yyR <- subHTRF[this_LR$ensemble, indR]
+	
+	# plot restricted group
+	A1 <- odiff_table_sum[i,"amplitude1"]
+	phi1 <- odiff_table_sum[i,"phi1"]
+	basal1 <- odiff_table_sum[i,"basal1"]
+	yy_fitR <- sinCurve(tt_base, A1, phi1, basal1)
+	titleR <- paste0(odiff_table_sum[i,"geneName"], ", p = ", signif(odiff_table_sum[i,"pvalue"],3))	
+	plot(ttR, yyR ,pch=20, xlab = "Restricted", ylab="Expression Value", main = titleR, ylim=c(min(yyU-5),max(yyU+5)))
+	lines(tt_base, yy_fitR, col = 2, lwd =3)
+	
+	# plot unrestricted group
+	A2 <- odiff_table_sum[i,"amplitude2"]
+	phi2 <- odiff_table_sum[i,"phi2"]
+	basal2 <- odiff_table_sum[i,"basal2"]
+	yy_fitU <- sinCurve(tt_base, A2, phi2, basal2)
+	titleU <- paste0(odiff_table_sum[i,"geneName"], ", p = ", signif(odiff_table_sum[i,"pvalue"],3))	
+	plot(ttU, yyU ,pch=20, xlab = "Unrestricted", ylab="", ylim=c(min(yyU-5),max(yyU+5)))
+	lines(tt_base, yy_fitU, col = 2, lwd =3)
 }
 ```
 

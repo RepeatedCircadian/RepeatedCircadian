@@ -13,7 +13,7 @@ install_github("RepeatedCircadian/RepeatedCircadian")
 
 
 ## Full tutorial
-
+https://github.com/RepeatedCircadian/RepeatedCircadian/blob/main/vignettes/RepeatedCircadian_tutorial.html
 
 ## Short tutorial for circadian pattern detection with repeated measured data
 

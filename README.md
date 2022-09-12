@@ -19,6 +19,7 @@ install_github("RepeatedCircadian/RepeatedCircadian")
 
 ```{R}
 library(RepeatedCircadian)
+require(MASS)
 
 #Example 1
 

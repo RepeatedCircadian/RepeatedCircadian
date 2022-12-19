@@ -2,8 +2,9 @@
 
 export(rpt_diff)
 export(rpt_rhythmicity)
+export(rpt_rhythmicity_new)
 import(MASS)
 import(lme4)
+import(lmerTest)
 import(lmtest)
 import(pbkrtest)
-import(lmerTest)

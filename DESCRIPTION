@@ -11,7 +11,7 @@ Description: Statistical methods for circadian and differential circadian analys
 License: GPL-3
 Encoding: UTF-8
 Depends: R (>= 3.6.0)
-Imports: lme4, MASS, lmtest, pbkrtest
+Imports: lme4, MASS, lmtest, pbkrtest, lmerTest
 BugReports: https://github.com/RepeatedCircadian/RepeatedCircadian/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2

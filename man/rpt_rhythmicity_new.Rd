@@ -41,6 +41,7 @@ Test the significance of circadian curve fitting using mixed model with random i
 \examples{
 Example 1
 
+library(MASS)
 set.seed(32611)
 m <- 10
 n <- 12
@@ -53,9 +54,11 @@ yy <- as.vector(t(mvrnorm(n,rep(offset,m),sigmaMat)))
 group <- factor(rep(c('A','B'),each=60),levels = c('A','B'))
 age <- rep(sample(20:80,n,replace = T),each=m)
 data <- data.frame(y=yy,t=tt,id=id,group=group,age=age)
-rpt_rhythmicity(data, period=24, type='int', method="LR", cov=NULL)
+rpt_rhythmicity_new(data, period=24, type='int', method="LR", cov=NULL)
 
 Example 2
+
+library(MASS)
 set.seed(32611)
 m <- 10
 n <- 12
@@ -71,7 +74,7 @@ yy <- as.vector(t(mvrnorm(n,amp*sin(2*pi/24*(phase+t))+offset,sigmaMat)))
 group <- factor(rep(c('A','B'),each=60),levels = c('A','B'))
 age <- rep(sample(20:80,n,replace = T),each=m)
 data <- data.frame(y=yy,t=tt,id=id,group=group,age=age)
-rpt_rhythmicity(data, type='int', period=24, method="LR",cov=c('group','age'))
+rpt_rhythmicity_new(data, type='int', period=24, method="LR",cov=c('group','age'))
 }
 \author{
 Haocheng Ding, Zhiguang Huo
